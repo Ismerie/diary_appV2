@@ -7,16 +7,16 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { getEmojiFeeling } from './utils/emote';
 
-export default function ListEntries({entries, nameRedirect}) {
-	const { user, setEntries } = useUser();
-	const [entriesDisplay, setEntriesDisplay] = useState([])
+export default function ListEntries() {
+	const { user, entries, setEntries } = useUser();
+	const [entriesDisplay, setEntriesDisplay] = useState(entries.slice(0,2))
 	const userEmail = user?.email;
 
 	const navigation = useNavigation();
 
 	// Récupérer les entrées de Firestore
 	useEffect(() => {
-		setEntriesDisplay(entries)
+		setEntriesDisplay(entries.slice(0,2))
 	}, [userEmail, entries]);
 
 	// Supprimer une entrée
@@ -24,7 +24,6 @@ export default function ListEntries({entries, nameRedirect}) {
 		try {
 			await deleteDoc(doc(db, "diaryEntries", id)); // Supprimer l'entrée
 			setEntries(prevEntries => prevEntries.filter(entry => entry.id !== id)); // Mettre à jour l'état local
-			setEntriesDisplay(prevEntries => prevEntries.filter(entry => entry.id !== id)); // Mettre à jour l'état local
 			Alert.alert('Success', 'Entry deleted successfully!');
 		} catch (error) {
 			console.error('Error deleting entry:', error);
@@ -41,7 +40,7 @@ export default function ListEntries({entries, nameRedirect}) {
 					<View style={styles.entry}>
 						<TouchableOpacity 
 							style={styles.buttonViewEntry} 
-							onPress={() => navigation.navigate('ViewEntryScreen', { entry: item, nameRedirect })}
+							onPress={() => navigation.navigate('ViewEntryScreen', { entry: item })}
 						>
 							<Text style={styles.date}>{new Date(item.date).toLocaleDateString()}</Text>
 							<Text style={styles.title}>{item.title}</Text>

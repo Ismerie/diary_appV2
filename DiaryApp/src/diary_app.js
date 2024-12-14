@@ -18,7 +18,7 @@ import BottomBar from './BottomBar'
 const Stack = createStackNavigator();
 
 function AppNavigator() {
-	const { user, setUser } = useUser(null); 
+	const { user, setUser } = useUser(null);
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -82,6 +82,5 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: 'pink'
 	},
 });

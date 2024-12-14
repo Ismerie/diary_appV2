@@ -4,11 +4,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { getEmojiFeeling } from '../utils/emote';
 
 export default function ViewEntryScreen({ navigation, route }) {
-	const { entry } = route.params;
+	const { entry, nameRedirect } = route.params;
 
 return (
 		<View style={styles.container}>
-			<TouchableOpacity style={styles.buttonLogin} onPress={() => navigation.navigate('ProfileScreen')}>
+			<TouchableOpacity style={styles.buttonLogin} onPress={() => navigation.navigate(nameRedirect)}>
 				<Ionicons name="arrow-back-outline" size={30} color="black" style={styles.icon} />
 			</TouchableOpacity>
 			<View>
