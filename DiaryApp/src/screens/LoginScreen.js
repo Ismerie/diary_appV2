@@ -45,7 +45,9 @@ export default function LoginScreen({navigation}) {
             resizeMode="cover"
         >
 			<SafeAreaView style={styles.container}>
-				<Text style={styles.title}>Open your <Text style={{color: '#f7a072'}}>Diary</Text></Text>
+				<View style={styles.titleContainer}>
+					<Text style={styles.title}>Open your <Text style={{color: '#f7a072'}}>Diary</Text></Text>
+				</View>
 				{/* Bouton Google */}
 				<TouchableOpacity style={styles.buttonLogin} onPress={() => promptAsync()}>
 					<View style={styles.buttonContent}>
@@ -61,46 +63,41 @@ export default function LoginScreen({navigation}) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
 		padding: 20,
+	},
+	titleContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',      
 	},
 	title: {
 		fontSize: 50,
-		textAlign: 'start',
+		textAlign: 'center',
 		marginBottom: 20,
 	},
 	buttonLogin: {
-		position: 'absolute',
-		bottom: 30,
 		backgroundColor: '#eddea4',
 		padding: 15,
 		borderRadius: 10,
 		width: '100%',
-	},
-	buttonLoginGit: {
-		position: 'absolute',
-		bottom: 120,
-		backgroundColor: '#eddea4',
-		padding: 15,
-		borderRadius: 10,
-		width: '100%',
-	},
-	fontButton: {
-		flex: 2,
-		fontSize: 30,
-		textAlign: 'right',
+		alignSelf: 'center',
+		elevation: 5,
 	},
 	backgroundImage: {
-        flex: 1,
-    },
-	icon: {
 		flex: 1,
-		textAlign: 'start',
+		justifyContent: 'center',
+	},
+	icon: {
+		textAlign: 'center',
 	},
 	buttonContent: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-},
+	},
+	fontButton: {
+        fontSize: 24,
+        textAlign: 'center',
+    }
 });

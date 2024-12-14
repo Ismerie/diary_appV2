@@ -12,6 +12,8 @@ import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ViewEntryScreen from './screens/ViewEntryScreen';
 import AddEntryScreen from './screens/AddEntryScreen';
+import AgendaScreen from './screens/AgendaScreen';
+import BottomBar from './BottomBar'
 
 const Stack = createStackNavigator();
 
@@ -34,19 +36,26 @@ function AppNavigator() {
 	}, []);
 
 	return (
-		<NavigationContainer>
-			<Stack.Navigator
-					initialRouteName={user ? "ProfileScreen" : "LoginScreen"}
-					screenOptions={({ route, navigation }) => ({
-				headerShown: false,
-					})}
-			>
-					<Stack.Screen name="LoginScreen" component={LoginScreen} />
-					<Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-					<Stack.Screen name="ViewEntryScreen" component={ViewEntryScreen} />
-					<Stack.Screen name="AddEntryScreen" component={AddEntryScreen} />
-			</Stack.Navigator>
-		</NavigationContainer>
+		<>
+            <NavigationContainer styles={styles.container}>
+                <Stack.Navigator
+                        initialRouteName={user ? "ProfileScreen" : "LoginScreen"}
+                        screenOptions={({ route, navigation }) => ({
+                    headerShown: false,
+                        })}
+                >
+                        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+                        <Stack.Screen name="ViewEntryScreen" component={ViewEntryScreen} />
+                        <Stack.Screen name="AddEntryScreen" component={AddEntryScreen} />
+                        <Stack.Screen name="AgendaScreen" component={AgendaScreen} />
+                </Stack.Navigator>
+				{user && (
+					<BottomBar />
+				)}
+            </NavigationContainer>
+
+        </>
 	);
 		}
 

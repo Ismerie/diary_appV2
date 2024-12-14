@@ -29,7 +29,6 @@ export default function ListEntries() {
 
 				// Exécuter la requête
 				const querySnapshot = await getDocs(entriesQuery);
-				console.log(querySnapshot);
 				// Mapper les documents dans un tableau
 				const fetchedEntries = querySnapshot.docs.map(doc => ({
 					id: doc.id,
@@ -70,15 +69,13 @@ export default function ListEntries() {
 						>
 							<Text style={styles.date}>{new Date(item.date).toLocaleDateString()}</Text>
 							<Text style={styles.title}>{item.title}</Text>
-                		</TouchableOpacity>
-						<View>
-						</View>
+						</TouchableOpacity>
 						{/* Container pour les boutons, qui les aligne à droite */}
 						<View style={styles.buttonsContainer}>
 							<Text style={styles.emote}>{getEmojiFeeling(item.feeling)}</Text>
 							<TouchableOpacity style={styles.buttonDelete} onPress={() => deleteEntry(item.id)}>
 								<Ionicons name="trash-outline" size={22} color="#F6D5C2" style={styles.icon} />
-                        	</TouchableOpacity>
+							</TouchableOpacity>
 						</View>
 					</View>
 				)}
@@ -98,10 +95,11 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: '#f7a072',
 		borderRadius: 10,
-		flexDirection: 'row', // Permet aux éléments enfants de s'aligner horizontalement
-		justifyContent: 'space-between', // Aligne les éléments dans l'espace disponible
-		alignItems: 'center', // Centre verticalement les éléments
-		width: '100%'
+		flexDirection: 'row', 
+		justifyContent: 'space-between', 
+		alignItems: 'center',
+		width: '100%',
+		elevation: 3,
 	},
 	title: {
 		fontSize: 18,
@@ -115,11 +113,12 @@ const styles = StyleSheet.create({
 	buttonViewEntry: {
 		padding: 10,
 		borderRadius: 5,
+		flex: 1
 	},
 	buttonsContainer: {
-		flexDirection: 'row', // Aligne les boutons horizontalement
-		justifyContent: 'flex-end', // Place les boutons à droite
-		alignItems: 'center', // Centre les boutons verticalement
+		flexDirection: 'row',
+		justifyContent: 'flex-end', 
+		alignItems: 'center',
 	},
 	buttonDelete: {
 		padding: 10,

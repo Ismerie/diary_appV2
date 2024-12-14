@@ -20,7 +20,7 @@ export default function AddDiaryEntry({ navigation }) {
 	const [feeling, setFeeling] = useState(getStrFeeling(feelings[0]));
 	const [content, setContent] = useState('');
 	const { user } = useUser();
-	const userEmail = user.email;
+	const userEmail = user?.email;
 
 	const addEntry = async () => {
 		try {
@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		padding: 15,
 		width: '100%',
+		elevation: 6,
 	},
 	fontButton: {
 		fontSize: 24,
