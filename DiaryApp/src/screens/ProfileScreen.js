@@ -9,16 +9,17 @@ import ListEntries from '../ListEntries';
 import DataFeelings from '../component/DataFeelings';
 
 export default function ProfileScreen({ navigation }) {
-    const { user, entries, setEntries } = useUser();
-    const [totalEntries, setTotalEntries] = useState(0);
+    const { user, entries, setEntries, setSelectedDate, setUser } = useUser();
     const userName = user?.displayName;
     const userEmail = user?.email;
     const db = getFirestore();
 
-
     const handleButtonLogOut = () => {
         auth.signOut()
         .then(() => {
+            setEntries([])
+            setSelectedDate(new Date().toISOString().split('T')[0])
+            setUser(null)
             navigation.navigate("LoginScreen");
         })
         .catch((error) => {
@@ -44,8 +45,7 @@ export default function ProfileScreen({ navigation }) {
                 id: doc.id,
                 ...doc.data(),
             }));
-        
-            setTotalEntries(fetchedEntries.length)
+            
             setEntries(fetchedEntries);
         } catch (error) {
             console.error('Error fetching entries:', error);
@@ -54,12 +54,7 @@ export default function ProfileScreen({ navigation }) {
 
     useEffect(() => {
         fetchEntries();
-    }, []);
-
-    useEffect(() => {
-
-        fetchEntries();
-    }, [userEmail, entries])    
+    }, [userEmail])    
 
     return (
         <View style={styles.container}>
@@ -70,12 +65,12 @@ export default function ProfileScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={{ flex: 2 }}>
-                <Text style={styles.titleContainer}>Your feel for your {totalEntries} entries</Text>
+                <Text style={styles.titleContainer}>Your feel for your {entries.length} entries</Text>
                 <DataFeelings />
             </View>
             <View style={{ flex: 3 }}>
                 <Text style={styles.titleContainer}>Your last diary entries</Text>
-                <ListEntries entries={entries.slice(0,2)} nameRedirect="ProfileScreen"/>
+                <ListEntries newEntries={entries.slice(0,2)} nameRedirect="ProfileScreen"/>
                 <TouchableOpacity 
                     style={styles.buttonNewEntry} 
                     onPress={() => navigation.navigate("AddEntryScreen")}

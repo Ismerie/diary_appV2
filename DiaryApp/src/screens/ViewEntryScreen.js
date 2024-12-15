@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity , ScrollView} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getEmojiFeeling } from '../utils/emote';
 
@@ -7,7 +7,7 @@ export default function ViewEntryScreen({ navigation, route }) {
 	const { entry, nameRedirect } = route.params;
 
 return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container}>
 			<TouchableOpacity style={styles.buttonLogin} onPress={() => navigation.navigate(nameRedirect)}>
 				<Ionicons name="arrow-back-outline" size={30} color="black" style={styles.icon} />
 			</TouchableOpacity>
@@ -17,7 +17,7 @@ return (
 				<Text style={styles.feeling}>{getEmojiFeeling(entry.feeling)}</Text>
 				<Text style={styles.content}>{entry.content}</Text>
 			</View>
-		</View>
+		</ScrollView>
 );
 }
 

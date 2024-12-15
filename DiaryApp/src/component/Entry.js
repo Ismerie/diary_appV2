@@ -17,14 +17,13 @@ export default function ListEntries() {
 	// Récupérer les entrées de Firestore
 	useEffect(() => {
 		setEntriesDisplay(entries.slice(0,2))
-	}, [userEmail, entries]);
+	}, [entries]);
 
 	// Supprimer une entrée
 	const deleteEntry = async (id) => {
 		try {
 			await deleteDoc(doc(db, "diaryEntries", id)); // Supprimer l'entrée
 			setEntries(prevEntries => prevEntries.filter(entry => entry.id !== id)); // Mettre à jour l'état local
-			Alert.alert('Success', 'Entry deleted successfully!');
 		} catch (error) {
 			console.error('Error deleting entry:', error);
 			Alert.alert('Error', 'Could not delete entry. Please try again.');

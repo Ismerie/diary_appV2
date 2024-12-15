@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Alert, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Alert, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { collection, addDoc } from 'firebase/firestore';
 import { useUser } from '../UserContext';
 import { db } from '../config/firebaseConfig';
@@ -38,7 +38,6 @@ export default function AddDiaryEntry({ navigation }) {
 				content,
 			});
 
-			Alert.alert('Success', 'Entry added!');
 			setTitle('');
 			setFeeling('');
 			setContent('');
@@ -55,7 +54,7 @@ export default function AddDiaryEntry({ navigation }) {
 				<Ionicons name="arrow-back-outline" size={30} color="black" />
 			</TouchableOpacity>
 			<Text style={styles.titleScreen}>Create a new note</Text>
-			<View style={styles.inputContainer}>
+			<ScrollView style={styles.inputContainer}>
 				<TextInput
 					style={styles.input}
 					placeholder="Title"
@@ -68,9 +67,9 @@ export default function AddDiaryEntry({ navigation }) {
 							key={icon}
 							style={[
 								styles.feelingIcon,
-								feeling === getStrFeeling(icon) && styles.selectedFeeling, // Applique le style si sélectionné
+								feeling === getStrFeeling(icon) && styles.selectedFeeling,
 							]}
-							onPress={() => setFeeling(getStrFeeling(icon))} // Met à jour l'état feeling
+							onPress={() => setFeeling(getStrFeeling(icon))}
 						>
 							<Text style={[styles.icon, feeling === getStrFeeling(icon) && styles.selectedIcon]}>
 								{icon}
@@ -86,7 +85,7 @@ export default function AddDiaryEntry({ navigation }) {
 					onChangeText={setContent}
 					multiline
 				/>
-			</View>
+			</ScrollView>
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity style={styles.buttonNewEntry} onPress={addEntry}>
 					<Text style={styles.fontButton}>Save</Text>
@@ -148,8 +147,10 @@ const styles = StyleSheet.create({
 		borderColor: '#ccc',
 		borderRadius: 5,
 		padding: 10,
-		flex: 1,
+		flex: 5,
 		fontSize: 20,
+		flex: 1,
+		height: 400,
 		borderWidth: 1,
 		textAlignVertical: 'top',
 	},

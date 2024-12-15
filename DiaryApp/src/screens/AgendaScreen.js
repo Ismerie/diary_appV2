@@ -7,19 +7,13 @@ import { useUser } from '../UserContext';
 import ListEntries from '../ListEntries';
 
 export default function AgendaScreen() {
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // Date actuelle
-    const { user, entries, setEntries } = useUser();
-	const [entriesDisplay, setEntriesDisplay] = useState([])
+    const { user, entries, selectedDate, setSelectedDate } = useUser();
+	const [entriesDisplay, setEntriesDisplay] = useState(entries.filter(entry => entry.date.split('T')[0] == selectedDate))
 
     // Appeler fetchEntries chaque fois que la date sélectionnée change
     useEffect(() => {
-		setEntriesDisplay(entries.filter(entry => entry.date.split('T')[0] === selectedDate));
-    }, [selectedDate]);
-
-	useEffect(() => {
-		setEntriesDisplay(entries.filter(entry => entry.date.split('T')[0]=== selectedDate));
-    }, []);
-
+		setEntriesDisplay(entries.filter(entry => entry.date.split('T')[0] == selectedDate));
+    }, [selectedDate, entries]);
 
     return (
         <View style={styles.container}>
@@ -39,26 +33,8 @@ export default function AgendaScreen() {
 				/>
 			</View>
 			<View style={{flex: 1}}>
-				<ListEntries entries={entriesDisplay} nameRedirect="AgendaScreen"/>
+				<ListEntries newEntries={entriesDisplay} nameRedirect="AgendaScreen"/>
 			</View>
-            {/* <FlatList
-                data={entriesDisplay}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <View style={styles.entryContainer}>
-                        <TouchableOpacity
-                            onPress={() => Alert.alert("Entry Details", `Title: ${item.title}\nDescription: ${item.description}`)}
-                        >
-                            <Text style={styles.entryTitle}>{item.title}</Text>
-                            <Text style={styles.entryDescription}>{item.description}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleDeleteEntry(item.id)}>
-                            <Text style={styles.deleteText}>Delete</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-                ListEmptyComponent={<Text style={styles.noEntriesText}>No entries for this date</Text>}
-            /> */}
         </View>
     );
 }

@@ -7,25 +7,15 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { getEmojiFeeling } from './utils/emote';
 
-export default function ListEntries({entries, nameRedirect}) {
+export default function ListEntries({newEntries, nameRedirect}) {
 	const { user, setEntries } = useUser();
-	const [entriesDisplay, setEntriesDisplay] = useState([])
 	const userEmail = user?.email;
-
 	const navigation = useNavigation();
 
-	// Récupérer les entrées de Firestore
-	useEffect(() => {
-		setEntriesDisplay(entries)
-	}, [userEmail, entries]);
-
-	// Supprimer une entrée
 	const deleteEntry = async (id) => {
 		try {
 			await deleteDoc(doc(db, "diaryEntries", id)); // Supprimer l'entrée
 			setEntries(prevEntries => prevEntries.filter(entry => entry.id !== id)); // Mettre à jour l'état local
-			setEntriesDisplay(prevEntries => prevEntries.filter(entry => entry.id !== id)); // Mettre à jour l'état local
-			Alert.alert('Success', 'Entry deleted successfully!');
 		} catch (error) {
 			console.error('Error deleting entry:', error);
 			Alert.alert('Error', 'Could not delete entry. Please try again.');
@@ -35,7 +25,7 @@ export default function ListEntries({entries, nameRedirect}) {
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={entriesDisplay}
+				data={newEntries}
 				keyExtractor={(item) => item.id}
 				renderItem={({ item }) => (
 					<View style={styles.entry}>
@@ -46,7 +36,6 @@ export default function ListEntries({entries, nameRedirect}) {
 							<Text style={styles.date}>{new Date(item.date).toLocaleDateString()}</Text>
 							<Text style={styles.title}>{item.title}</Text>
 						</TouchableOpacity>
-						{/* Container pour les boutons, qui les aligne à droite */}
 						<View style={styles.buttonsContainer}>
 							<Text style={styles.emote}>{getEmojiFeeling(item.feeling)}</Text>
 							<TouchableOpacity style={styles.buttonDelete} onPress={() => deleteEntry(item.id)}>
@@ -80,7 +69,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 18,
 		fontWeight: 'bold',
-		flex: 1, // Le titre prend l'espace restant
+		flex: 1,
 	},
 	date: {
 		fontSize: 14,

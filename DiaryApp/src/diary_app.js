@@ -30,7 +30,6 @@ function AppNavigator() {
 				setUser(null);
 			}
 		});
-	
 		// Cleanup the subscription
 		return () => unsubscribe();
 	}, []);
