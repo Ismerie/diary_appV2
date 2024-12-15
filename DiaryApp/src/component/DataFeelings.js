@@ -2,12 +2,47 @@ import React, { useEffect, useState } from 'react';
 import { View, Text,StyleSheet} from 'react-native';
 import { useUser } from "../UserContext"
 import { getEmojiFeeling } from '../utils/emote';
+import { BarChart } from "react-native-gifted-charts";
 
 
 export default function ListEntries() {
     const [feelingsPercentages, setFeelingsPercentages] = useState({}); // Les pourcentages des feelings
     const { user, entries} = useUser();
     const userEmail = user?.email
+
+    const CappedBars = () => {
+        const barData = Object.entries(feelingsPercentages)
+        .map(([feeling, percentage]) => ({
+            value: parseInt(percentage, 10), // Utilise le pourcentage comme valeur // Utilise l'émoji comme label
+            topLabelComponent: () => (
+                <>
+                    <Text style={{ fontSize: 25, marginBottom: 6, padding: 1}}>{getEmojiFeeling(feeling)}</Text>
+                </>
+            ),
+        }));
+        
+        return (
+        <View style={styles.chartContainer} >
+            <BarChart
+                data={barData}
+                cappedBars
+                capColor={'rgba(78, 0, 142)'}
+                showGradient
+                gradientColor={'rgba(247, 160, 114, 0.9)'}
+                frontColor={'rgba(237, 222, 164, 0.4)'}
+                hideYAxisText
+                xAxisThickness={0}
+                yAxisThickness={0}
+                hideRules
+                height={120}
+                barWidth={40}
+                yAxisExtraHeight={40}
+                
+            />
+        </View>
+        );
+    };
+    
 
     const fetchEntriesAndCalculateFeelings = async () => {
         if (!entries) return ;
@@ -55,54 +90,17 @@ export default function ListEntries() {
     
 	return (
         <View style={styles.container}>
-            <View style={styles.containerFeeling}>
-                {/* Première ligne : 3 premiers sentiments */}
-                {Object.entries(feelingsPercentages)
-                    .slice(0, 3) // Prend les trois premiers
-                    .map(([feeling, percentage]) => (
-                        <View key={feeling} style={styles.containerOneFeel}>
-                            <Text style={styles.emoji}>{getEmojiFeeling(feeling)}</Text>
-                            <Text style={styles.textPercentage}>{percentage}%</Text>
-                        </View>
-                    ))}
-            </View>
-    
-            <View style={styles.containerFeeling}>
-                {/* Deuxième ligne : 3 derniers sentiments */}
-                {Object.entries(feelingsPercentages)
-                    .slice(3) // Prend les trois suivants
-                    .map(([feeling, percentage]) => (
-                        <View key={feeling} style={styles.containerOneFeel}>
-                            <Text style={styles.emoji}>{getEmojiFeeling(feeling)}</Text>
-                            <Text style={styles.textPercentage}>{percentage}%</Text>
-                        </View>
-                    ))}
-            </View>
+            <CappedBars/>
         </View>
     );
 }
 
     const styles = StyleSheet.create({
-        container: {
+        chartContainer: {
             flex: 1,
-            justifyContent: 'center', // Centre les lignes verticalement
-            alignItems: 'center', // Centre les lignes horizontalement
-        },
-        containerFeeling: {
-            flexDirection: 'row',
-            justifyContent: 'space-around', // Espace uniforme entre les éléments
-            width: '100%', // Chaque ligne prend toute la largeur
-            marginBottom: 20, // Espace entre les lignes
-        },
-        containerOneFeel: {
-            flex: 1,
-            alignItems: 'center', // Centre les éléments dans une colonne
-        },
-        emoji: {
-            fontSize: 30,
-        },
-        textPercentage: {
-            fontSize: 20, // Taille du texte légèrement réduite
+            alignItems: 'center',
+            justifyContent: 'center',
+            
         },
     });
     

@@ -64,13 +64,15 @@ export default function ProfileScreen({ navigation }) {
                     <Ionicons name="power-outline" size={24} color="#f7a072" />
                 </TouchableOpacity>
             </View>
-            <View style={{ flex: 2 }}>
-                <Text style={styles.titleContainer}>Your feel for your {entries.length} entries</Text>
+            <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={[styles.titleContainer, {marginTop: 20}]}>Your feel for your <Text style={{color: '#f7a072', fontWeight: '600'}}>{entries.length}</Text> entries</Text>
                 <DataFeelings />
             </View>
             <View style={{ flex: 3 }}>
                 <Text style={styles.titleContainer}>Your last diary entries</Text>
-                <ListEntries newEntries={entries.slice(0,2)} nameRedirect="ProfileScreen"/>
+                <View style={{marginTop: 15, flex: 1}}>
+                    <ListEntries newEntries={entries.slice(0,2)} nameRedirect="ProfileScreen"/>
+                </View>
                 <TouchableOpacity 
                     style={styles.buttonNewEntry} 
                     onPress={() => navigation.navigate("AddEntryScreen")}
@@ -93,7 +95,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginBottom: 20,
         height: 80,
-        paddingHorizontal: 10,
     },
     buttonLogOut: {
         backgroundColor: '#f9f7f3',
@@ -120,5 +121,7 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         fontSize: 25,
+        fontWeight: 400,
+        alignSelf: 'start'
     }
 });

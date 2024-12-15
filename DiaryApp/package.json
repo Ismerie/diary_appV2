@@ -28,9 +28,12 @@
     "react-native-async-storage": "^0.0.1",
     "react-native-calendars": "^1.1307.0",
     "react-native-gesture-handler": "^2.21.2",
+    "react-native-gifted-charts": "^1.4.47",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-reanimated": "^3.16.5",
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "^4.3.0",
+    "react-native-svg": "^15.10.1",
     "react-native-web": "^0.19.13"
   },
   "devDependencies": {
